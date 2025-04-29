@@ -24,29 +24,46 @@ const AddContestantModal: React.FC<Props> = ({ categoryId, onClose }) => {
   };
 
   const handleSubmit = async () => {
-    if (!name || !file) return;
+    if (!name || !file) {
+      alert('Please fill out the form completely.');
+      return;
+    }
     setLoading(true);
 
+    console.log('Category ID:', categoryId);
+  
     try {
+      // Ensure categoryId is valid before proceeding with adding contestant
+      if (!categoryId) {
+        alert('No valid category found.');
+        setLoading(false);
+        return;
+      }
+  
       const storage = getStorage();
       const storageRef = ref(storage, `contestants/${Date.now()}-${file.name}`);
       await uploadBytes(storageRef, file);
       const imageUrl = await getDownloadURL(storageRef);
-
-      await addDoc(collection(db, `categories/${categoryId}/contestants`), {
+      
+      // Fix: Use the correct collection reference for the subcollection
+      const contestantsRef = collection(db, 'categories', categoryId, 'contestants');
+      
+      await addDoc(contestantsRef, {
         name,
         image: imageUrl,
+        createdAt: new Date(),
       });
-
+  
+      alert('Contestant added successfully!');
       onClose();
     } catch (error) {
       console.error('Error uploading contestant:', error);
-      alert('Failed to add contestant.'); // Error handling
+      alert('Failed to add contestant.');
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <Overlay>
       <Modal>
