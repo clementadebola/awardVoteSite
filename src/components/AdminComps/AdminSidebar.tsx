@@ -1,8 +1,71 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { FaHome, FaUsers, FaVideo, FaCalendarAlt, FaUser , FaSignOutAlt, } from "react-icons/fa";
+import { FaHome, FaVideo, FaCalendarAlt, FaUser , FaSignOutAlt, FaAward, } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { IoArrowBackSharp } from "react-icons/io5";
+
+
+
+const AdminSidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/logout");
+  };
+  return (
+    <SidebarContainer>
+      <LogoContainer>
+        <LogoImage src={logo} alt="Logo" />
+      </LogoContainer>
+      <nav>
+        <SidebarLink to="/admin">
+          <SidebarIcon>
+            <FaHome />
+          </SidebarIcon>
+          Home
+        </SidebarLink>
+        <SidebarLink to="/admin/profile">
+        <SidebarIcon>
+        <FaUser />
+          </SidebarIcon>
+        Profile
+        </SidebarLink>
+
+        <SidebarLink to="/admin/category">
+          <SidebarIcon>
+            <FaAward />
+          </SidebarIcon>
+          Manage Category
+        </SidebarLink>
+
+        <SidebarLink to="/admin/livestream">
+          <SidebarIcon>
+            <FaVideo />
+          </SidebarIcon>
+          Live Stream
+        </SidebarLink>
+        <SidebarLink to="/admin/events">
+          <SidebarIcon>
+            <FaCalendarAlt />
+          </SidebarIcon>
+          Events
+        </SidebarLink>
+        <SidebarLink to="/">
+        <SidebarIcon>
+        <IoArrowBackSharp />
+          </SidebarIcon>
+          Back Home
+        </SidebarLink>
+
+        <LogoutButton onClick={handleLogout}>
+          <FaSignOutAlt /> Logout
+        </LogoutButton>
+      </nav>
+    </SidebarContainer>
+  );
+};
+
+export default AdminSidebar;
 
 const SidebarContainer = styled.div`
   width: 250px;
@@ -43,7 +106,7 @@ const SidebarLink = styled(Link)`
   border-radius: 8px;
   transition: all 0.3s ease;
   margin: 5px 0;
-  font-size: 1.1rem;
+  font-size: 1;
 
   &:hover {
     background-color: #34495e;
@@ -77,63 +140,3 @@ const LogoutButton = styled.button`
     margin-right: 10px;
   }
 `;
-
-
-const AdminSidebar = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate("/logout");
-  };
-  return (
-    <SidebarContainer>
-      <LogoContainer>
-        <LogoImage src={logo} alt="Logo" />
-      </LogoContainer>
-      <nav>
-        <SidebarLink to="/admin">
-          <SidebarIcon>
-            <FaHome />
-          </SidebarIcon>
-          Home
-        </SidebarLink>
-        <SidebarLink to="/admin/profile">
-        <SidebarIcon>
-        <FaUser />
-          </SidebarIcon>
-        Profile
-        </SidebarLink>
-        <SidebarLink to="/admin/visitors">
-          <SidebarIcon>
-            <FaUsers />
-          </SidebarIcon>
-          Visitors
-        </SidebarLink>
-        <SidebarLink to="/admin/livestream">
-          <SidebarIcon>
-            <FaVideo />
-          </SidebarIcon>
-          Live Stream
-        </SidebarLink>
-        <SidebarLink to="/admin/events">
-          <SidebarIcon>
-            <FaCalendarAlt />
-          </SidebarIcon>
-          Events
-        </SidebarLink>
-        <SidebarLink to="/">
-        <SidebarIcon>
-        <IoArrowBackSharp />
-          </SidebarIcon>
-          Back Home
-        </SidebarLink>
-
-        <LogoutButton onClick={handleLogout}>
-          <FaSignOutAlt /> Logout
-        </LogoutButton>
-      </nav>
-    </SidebarContainer>
-  );
-};
-
-export default AdminSidebar;

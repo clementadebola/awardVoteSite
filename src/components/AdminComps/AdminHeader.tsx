@@ -44,7 +44,7 @@ const AdminHeader: React.FC = () => {
         <NavItem to="/admin/profile" onClick={() => setIsOpen(false)}>
           <FaUser /> Profile
         </NavItem>
-        <NavItem to="/admin/visitors" onClick={() => setIsOpen(false)}>
+        <NavItem to="/admin/category" onClick={() => setIsOpen(false)}>
           <FaAward /> Categories List
         </NavItem>
         <NavItem to="/admin/livestream" onClick={() => setIsOpen(false)}>

@@ -7,8 +7,40 @@ import AdminHome from '../../components/AdminComps/AdminHome';
 import VisitorStats from '../../components/AdminComps/VisitorStats';
 import LiveStreamEditor from '../../components/AdminComps/LiveStreamEditor';
 import EventEditor from '../../components/AdminComps/EventEditor';
+import CategoryDashboard from '../../components/AdminComps/CategoryDashboard';
 import AdminProfile from '../../components/AdminComps/AdminProfile';
 import GlobalStyles from '../../GlobalStyles';
+
+
+
+const AdminDashboard: React.FC = () => {
+
+
+  return (
+    <DashboardContainer>
+      <GlobalStyles />
+        <AdminSidebar />
+      <MainContentWrapper>
+          <AdminHeader />
+        <ContentArea>
+          <Routes>
+            <Route path="/" element={<AdminHome />} />
+            /* this part manage categories /*
+            <Route path="category" element={<CategoryDashboard />} />
+            /* this part manage contestants /*
+            <Route path="livestream" element={<LiveStreamEditor />} />
+            /* this part see payments /*
+            <Route path="events" element={<EventEditor />} />
+            <Route path="profile" element={<AdminProfile />} />
+            
+          </Routes>
+        </ContentArea>
+      </MainContentWrapper>
+    </DashboardContainer>
+  );
+};
+
+export default AdminDashboard;
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -27,32 +59,3 @@ const ContentArea = styled.div`
     flex: 1;
   // padding-top: 100px;
 `;
-
-const AdminDashboard: React.FC = () => {
-
-
-  return (
-    <DashboardContainer>
-      <GlobalStyles />
-        <AdminSidebar />
-      <MainContentWrapper>
-          <AdminHeader />
-        <ContentArea>
-          <Routes>
-            <Route path="/" element={<AdminHome />} />
-            /* this part manage categories /*
-            <Route path="visitors" element={<VisitorStats />} />
-            /* this part manage contestants /*
-            <Route path="livestream" element={<LiveStreamEditor />} />
-            /* this part see payments /*
-            <Route path="events" element={<EventEditor />} />
-            <Route path="profile" element={<AdminProfile />} />
-            
-          </Routes>
-        </ContentArea>
-      </MainContentWrapper>
-    </DashboardContainer>
-  );
-};
-
-export default AdminDashboard;

@@ -27,6 +27,7 @@ import GlobalStyles from "./GlobalStyles";
 import Loader from "./components/Loader";
 
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import VoteDetails from "./components/VoteDetails.tsx";
 
 const AppContainer = styled.div`
   display: flex;
@@ -92,6 +93,7 @@ const App: React.FC = () => {
             <ContentWrapper>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/vote-details" element={<VoteDetails />} />
 
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/logout" element={<Logout />} />

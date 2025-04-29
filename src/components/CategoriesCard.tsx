@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Define the types for the props
@@ -14,19 +14,21 @@ interface CategoryCardProps {
   candidates: CandidateType[];
 }
 
-interface CandidatesListProps {
-  isExpanded: boolean;
-}
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, icon, description, candidates }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleExpand = () => {
-    setIsExpanded(prev => !prev);
+  const handleClick = () => {
+   navigate('/vote-details',{
+    state: {
+      category,
+      candidates
+    }
+   })
   };
 
   return (
-    <Card onClick={toggleExpand}>
+    <Card onClick={handleClick}>
       <CardTop>
         <CategoryIcon>{icon}</CategoryIcon>
       </CardTop>
@@ -34,19 +36,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, icon, description
         <CategoryTitle>{category}</CategoryTitle>
         <CategoryDescription>{description}</CategoryDescription>
 
-        <CandidatesList isExpanded={isExpanded}>
-          {candidates.map((candidate, index) => (
-            <Candidate key={index}>
-              <CandidateAvatar>
-                {candidate.name.charAt(0)}
-              </CandidateAvatar>
-              <CandidateInfo>
-                <CandidateName>{candidate.name}</CandidateName>
-                <CandidateAchievement>{candidate.achievement}</CandidateAchievement>
-              </CandidateInfo>
-            </Candidate>
-          ))}
-        </CandidatesList>
       </CardContent>
     </Card>
   );
@@ -98,48 +87,4 @@ const CategoryDescription = styled.p`
   font-size: 0.9rem;
   color: #666;
   margin-bottom: 1rem;
-`;
-
-const CandidatesList = styled.div<CandidatesListProps>`
-  max-height: ${({ isExpanded }) => (isExpanded ? '500px' : '0')};
-  overflow: hidden;
-  transition: max-height 0.5s ease;
-`;
-
-const Candidate = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #eee;
-
-  &:last-child {
-    border-bottom: none;
-  }
-`;
-
-const CandidateAvatar = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.grey};
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.primary};
-  font-weight: bold;
-`;
-
-const CandidateInfo = styled.div`
-  flex: 1;
-`;
-
-const CandidateName = styled.h4`
-  font-size: 1rem;
-  margin-bottom: 0.2rem;
-`;
-
-const CandidateAchievement = styled.p`
-  font-size: 0.8rem;
-  color: #888;
 `;
