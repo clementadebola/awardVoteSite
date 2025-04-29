@@ -11,10 +11,6 @@ Welcome to the codebase for our Church Website built with React and TypeScript! 
 - **TypeScript** 🟦
 
 ## 🌟 Features
-
-- 📅 **Event Listings:** Stay updated with upcoming church events.
-- 📝 **Blog:** Read inspiring stories and messages.
-- 📷 **Gallery:** Browse through photos of our community and events.
 - 🤝 **Connect:** Find ways to get involved and connect with us.
 
 ## 👨‍💻 Contributing
