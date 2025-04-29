@@ -2,6 +2,38 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+
+
+const Dropdown: React.FC<{
+  title: string;
+  items: { label: string; path: string }[];
+  onItemClick: () => void;
+}> = ({ title, items, onItemClick }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const handleItemClick = () => {
+    setIsOpen(false);
+    onItemClick();
+  };
+
+  return (
+    <DropdownContainer>
+      <DropdownButton onClick={toggleDropdown}>{title}</DropdownButton>
+      <DropdownContent isOpen={isOpen}>
+        {items.map((item, index) => (
+          <DropdownItem key={index} to={item.path} onClick={handleItemClick}>
+            {item.label}
+          </DropdownItem>
+        ))}
+      </DropdownContent>
+    </DropdownContainer>
+  );
+};
+
+export default Dropdown;
+
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
@@ -60,33 +92,3 @@ const DropdownItem = styled(Link)`
     padding: 0.5rem 1;
   }
 `;
-
-const Dropdown: React.FC<{
-  title: string;
-  items: { label: string; path: string }[];
-  onItemClick: () => void;
-}> = ({ title, items, onItemClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-  const handleItemClick = () => {
-    setIsOpen(false);
-    onItemClick();
-  };
-
-  return (
-    <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>{title}</DropdownButton>
-      <DropdownContent isOpen={isOpen}>
-        {items.map((item, index) => (
-          <DropdownItem key={index} to={item.path} onClick={handleItemClick}>
-            {item.label}
-          </DropdownItem>
-        ))}
-      </DropdownContent>
-    </DropdownContainer>
-  );
-};
-
-export default Dropdown;

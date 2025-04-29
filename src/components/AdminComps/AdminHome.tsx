@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FaUsers, FaVideo, FaCalendarAlt, FaChartLine, FaVoteYea, FaAward } from 'react-icons/fa';
+import { FaUsers, FaVideo, FaCalendarAlt, FaChartLine, FaVoteYea, FaAward, FaMoneyBill } from 'react-icons/fa';
 
 const DashboardContainer = styled.div`
   display: grid;
@@ -127,7 +127,7 @@ const AdminHome: React.FC = () => {
         transition={{ duration: 0.3, delay: 0.3 }}
       >
         <CardHeader>
-          <CardTitle>Categories</CardTitle>
+          <CardTitle>Total Categories</CardTitle>
           <IconWrapper>
             <FaAward />
           </IconWrapper>
@@ -135,6 +135,42 @@ const AdminHome: React.FC = () => {
         <CardContent>
           <CardValue>3</CardValue>
           <CardSubtext>Next event in 2 days</CardSubtext>
+        </CardContent>
+      </DashboardCard>
+
+      <DashboardCard
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.3, delay: 0.3 }}
+      >
+        <CardHeader>
+          <CardTitle>Total Revenue</CardTitle>
+          <IconWrapper>
+            <FaMoneyBill />
+          </IconWrapper>
+        </CardHeader>
+        <CardContent>
+          <CardValue>N145,000</CardValue>
+          <CardSubtext>over the last 12 days</CardSubtext>
+        </CardContent>
+      </DashboardCard>
+
+      <DashboardCard
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.3, delay: 0.3 }}
+      >
+        <CardHeader>
+          <CardTitle>Top Voted</CardTitle>
+          <IconWrapper>
+            <FaAward />
+          </IconWrapper>
+        </CardHeader>
+        <CardContent>
+          <CardValue>John Doe</CardValue>
+          <CardSubtext>(250votes) </CardSubtext>
         </CardContent>
       </DashboardCard>
     </DashboardContainer>

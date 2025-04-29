@@ -6,6 +6,100 @@ import { useAuth } from "../../contexts/AuthContext";
 import illutrator from "../../assets/Login_illustrator.png";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
+
+const Login: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/admin");
+    }
+  }, [isAuthenticated, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const success = await login(email, password);
+      if (success) {
+        toast.success("Login successful!");
+        navigate("/admin");
+      } else {
+        setError("Invalid email or password");
+        toast.error("Login failed. Please check your credentials.");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
+    }
+  };
+
+  return (
+    <LoginContainer>
+      <LoginCard>
+        <IllustrationSection>
+          <LoginIllustration src={illutrator} alt="Login Illustration" />
+        </IllustrationSection>
+        <FormSection>
+          <LoginTitle>
+            Admin Login
+            <h6 style={{ fontSize: 13, color: "red" }}>Only admin please!</h6>
+          </LoginTitle>
+
+          <LoginForm onSubmit={handleSubmit}>
+            <FormGroup>
+              <Label htmlFor="email">Email</Label>
+              <InputWrapper>
+                <InputIcon>
+                  <FaEnvelope />
+                </InputIcon>
+                <Input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Enter your email"
+                />
+              </InputWrapper>
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="password">Password</Label>
+              <InputWrapper>
+                <InputIcon>
+                  <FaLock />
+                </InputIcon>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Enter your password"
+                />
+                <PasswordToggle onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </PasswordToggle>
+              </InputWrapper>
+            </FormGroup>
+            <SubmitButton type="submit">Log In</SubmitButton>
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+          </LoginForm>
+        </FormSection>
+      </LoginCard>
+    </LoginContainer>
+  );
+};
+
+export default Login;
+
+
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
@@ -158,95 +252,3 @@ const ErrorMessage = styled.p`
   text-align: center;
   margin-top: 1rem;
 `;
-
-const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/admin");
-    }
-  }, [isAuthenticated, navigate]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    try {
-      const success = await login(email, password);
-      if (success) {
-        toast.success("Login successful!");
-        navigate("/admin");
-      } else {
-        setError("Invalid email or password");
-        toast.error("Login failed. Please check your credentials.");
-      }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
-      toast.error("An error occurred. Please try again.");
-    }
-  };
-
-  return (
-    <LoginContainer>
-      <LoginCard>
-        <IllustrationSection>
-          <LoginIllustration src={illutrator} alt="Login Illustration" />
-        </IllustrationSection>
-        <FormSection>
-          <LoginTitle>
-            Admin Login
-            <h6 style={{ fontSize: 13, color: "red" }}>Only admin please!</h6>
-          </LoginTitle>
-
-          <LoginForm onSubmit={handleSubmit}>
-            <FormGroup>
-              <Label htmlFor="email">Email</Label>
-              <InputWrapper>
-                <InputIcon>
-                  <FaEnvelope />
-                </InputIcon>
-                <Input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="Enter your email"
-                />
-              </InputWrapper>
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="password">Password</Label>
-              <InputWrapper>
-                <InputIcon>
-                  <FaLock />
-                </InputIcon>
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Enter your password"
-                />
-                <PasswordToggle onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </PasswordToggle>
-              </InputWrapper>
-            </FormGroup>
-            <SubmitButton type="submit">Log In</SubmitButton>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
-          </LoginForm>
-        </FormSection>
-      </LoginCard>
-    </LoginContainer>
-  );
-};
-
-export default Login;

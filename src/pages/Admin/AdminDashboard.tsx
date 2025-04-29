@@ -40,8 +40,11 @@ const AdminDashboard: React.FC = () => {
         <ContentArea>
           <Routes>
             <Route path="/" element={<AdminHome />} />
+            /* this part manage categories /*
             <Route path="visitors" element={<VisitorStats />} />
+            /* this part manage contestants /*
             <Route path="livestream" element={<LiveStreamEditor />} />
+            /* this part see payments /*
             <Route path="events" element={<EventEditor />} />
             <Route path="profile" element={<AdminProfile />} />
             
