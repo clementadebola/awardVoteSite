@@ -1,5 +1,5 @@
 
-# ⛪ Church Website
+# ⛪ Voting Website
 
 Welcome to the codebase for our Church Website built with React and TypeScript! This repository contains the code for our dynamic, user-friendly website aimed at bringing our community closer together.
 
