@@ -18,15 +18,21 @@ const CategoryForm: React.FC<Props> = ({ onCategoryAdded }) => {
     }
 
     try {
-      await addDoc(collection(db, 'categories'), { name, description });
-      alert('Category added successfully!');
+      const docRef = await addDoc(collection(db, 'categories'), {
+        name,
+        description,
+        createdAt: new Date(),
+      });
+      console.log('Category saved with ID:', docRef.id);
+      alert('✅ Category added successfully!');
       setName('');
       setDescription('');
       onCategoryAdded();
-    } catch (error) {
-      console.error('Error adding category:', error);
-      alert('Failed to add category. Try again.');
+    } catch (error: any) {
+      console.error('❌ Firebase error:', error.message);
+      alert('Failed to add category: ' + error.message);
     }
+    
   };
 
   return (
@@ -126,4 +132,3 @@ const SubmitButton = styled.button`
     background: #121636;
   }
 `;
-

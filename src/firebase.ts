@@ -19,7 +19,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBpXdo3VrGepj0Opdck1HW_CHrnYeaWpR4",
   authDomain: "votingsite-56765.firebaseapp.com",
   projectId: "votingsite-56765",
-  storageBucket: "votingsite-56765.firebasestorage.app",
+  storageBucket: "votingsite-56765.appspot.com",
   messagingSenderId: "224274695707",
   appId: "1:224274695707:web:b829c86c1ef3328d8a5abe",
   measurementId: "G-SPGFRD7XQQ"

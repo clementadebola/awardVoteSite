@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaVideo, FaCalendarAlt, FaUser , FaSignOutAlt, FaAward, } from "react-icons/fa";
-import logo from "../../assets/logo.png";
 import { IoArrowBackSharp } from "react-icons/io5";
 
 
@@ -14,9 +13,6 @@ const AdminSidebar = () => {
   };
   return (
     <SidebarContainer>
-      <LogoContainer>
-        <LogoImage src={logo} alt="Logo" />
-      </LogoContainer>
       <nav>
         <SidebarLink to="/admin">
           <SidebarIcon>
@@ -83,19 +79,6 @@ const SidebarContainer = styled.div`
   }
 `;
 
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-  flex-direction: column;
-`;
-
-const LogoImage = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-`;
 
 const SidebarLink = styled(Link)`
   display: flex;
