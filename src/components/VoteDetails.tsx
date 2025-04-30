@@ -67,17 +67,23 @@ const CandidateCard = styled.div`
 `;
 
 const CandidateImage = styled.div`
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 1rem;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
+  overflow: hidden;
   background: ${({ theme }) => theme.colors.grey};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  color: ${({ theme }) => theme.colors.primary};
+  margin: 0 auto 1rem;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
+
 
 const CandidateName = styled.h4`
   margin: 0.5rem 0 0.2rem;

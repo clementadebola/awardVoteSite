@@ -4,12 +4,11 @@ import { Route, Routes } from 'react-router-dom';
 import AdminSidebar from '../../components/AdminComps/AdminSidebar';
 import AdminHeader from '../../components/AdminComps/AdminHeader';
 import AdminHome from '../../components/AdminComps/AdminHome';
-import VisitorStats from '../../components/AdminComps/VisitorStats';
-import LiveStreamEditor from '../../components/AdminComps/LiveStreamEditor';
 import EventEditor from '../../components/AdminComps/EventEditor';
 import CategoryDashboard from '../../components/AdminComps/CategoryDashboard';
 import AdminProfile from '../../components/AdminComps/AdminProfile';
 import GlobalStyles from '../../GlobalStyles';
+import AllCategoriesPage from '../../components/AdminComps/AllCategoriesList';
 
 
 
@@ -28,7 +27,7 @@ const AdminDashboard: React.FC = () => {
             /* this part manage categories /*
             <Route path="category" element={<CategoryDashboard />} />
             /* this part manage contestants /*
-            <Route path="livestream" element={<LiveStreamEditor />} />
+            <Route path="all-category" element={<AllCategoriesPage />} />
             /* this part see payments /*
             <Route path="events" element={<EventEditor />} />
             <Route path="profile" element={<AdminProfile />} />

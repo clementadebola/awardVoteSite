@@ -1,7 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
 import CategoryForm from './CategoryForm';
 import CategoryList from './CategoryList';
+import { Link } from 'react-router-dom';
+
 
 const CategoryDashboard = () => {
   return (
@@ -9,6 +10,9 @@ const CategoryDashboard = () => {
       <h2>Category Listing</h2>
       <CategoryForm onCategoryAdded={() => {}} />
       <CategoryList />
+      <LinkWrapper>
+  <Link to="/admin/all-category">See More Categories</Link>
+</LinkWrapper>
     </DashboardWrapper>
   );
 };
@@ -23,5 +27,18 @@ const DashboardWrapper = styled.div`
   h2 {
     margin-bottom: 1rem;
     color: #090b22;
+  }
+`;
+
+const LinkWrapper = styled.div`
+  margin-top: 2rem;
+  text-align: center;
+
+  a {
+    color: ${({ theme }) => theme.colors.primary};
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
   }
 `;
