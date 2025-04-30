@@ -30,40 +30,56 @@ const AddContestantModal: React.FC<Props> = ({ categoryId, onClose }) => {
       toast.error('Please fill out the form completely.');
       return;
     }
-
+  
     if (!categoryId) {
       toast.error('No valid category selected.');
       return;
     }
-
+  
     setLoading(true);
     console.log('Adding contestant to category ID:', categoryId);
-
+  
     try {
-      const storage = getStorage();
-      const storageRef = ref(storage, `contestants/${Date.now()}-${file.name}`);
-      await uploadBytes(storageRef, file);
-      const imageUrl = await getDownloadURL(storageRef);
-
+      // Cloudinary Upload
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'contestant_images'); // 🔁 your preset name
+      formData.append('folder', 'contestants'); // Optional: organize by folder
+  
+      const response = await fetch('https://api.cloudinary.com/v1_1/dqplvhieo/image/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const data = await response.json();
+  
+      if (!data.secure_url) {
+        throw new Error('Image upload failed');
+      }
+  
+      const imageUrl = data.secure_url;
+  
+      // Firestore Save
       const categoryDocRef = doc(db, 'categories', categoryId);
       const contestantsCollectionRef = collection(categoryDocRef, 'contestants');
-
+  
       const contestantDocRef = await addDoc(contestantsCollectionRef, {
         name,
         image: imageUrl,
         createdAt: new Date(),
       });
-
-      console.log('Contestant added successfully with ID:', contestantDocRef.id);
+  
+      console.log('Contestant added with ID:', contestantDocRef.id);
       toast.success('Contestant added successfully!');
       onClose();
     } catch (error) {
-      console.error('Error uploading contestant:', error);
+      console.error('Upload error:', error);
       toast.error('Failed to add contestant.');
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <>

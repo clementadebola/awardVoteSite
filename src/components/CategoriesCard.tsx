@@ -5,6 +5,7 @@ import styled from 'styled-components';
 interface CandidateType {
   name: string;
   achievement: string;
+  image: string;
 }
 
 interface CategoryCardProps {

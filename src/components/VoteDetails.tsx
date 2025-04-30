@@ -1,10 +1,11 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
 
 interface CandidateType {
   name: string;
   achievement: string;
+  image?: string;
 }
 
 interface LocationState {
@@ -22,7 +23,13 @@ const VoteDetails: React.FC = () => {
       <CandidatesGrid>
         {candidates.map((candidate, index) => (
           <CandidateCard key={index}>
-            <CandidateImage>{candidate.name.charAt(0)}</CandidateImage>
+            <CandidateImage>
+              {candidate.image ? (
+                <img src={candidate.image} alt={candidate.name} />
+              ) : (
+                candidate.name.charAt(0)
+              )}
+            </CandidateImage>
             <CandidateName>{candidate.name}</CandidateName>
             <CandidateAchievement>{candidate.achievement}</CandidateAchievement>
             <VoteInput type="number" placeholder="Number of votes" min={1} />
@@ -55,7 +62,7 @@ const CandidateCard = styled.div`
   background: ${({ theme }) => theme.colors.light};
   border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
 `;
 

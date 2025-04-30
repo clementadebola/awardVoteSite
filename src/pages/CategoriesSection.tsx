@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CategoryCard from '../components/CategoriesCard';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase'; // Update path as needed
+import { db } from '../firebase'; 
 
 // Types
 interface Candidate {
   name: string;
   achievement?: string;
+  image?: string;
 }
 
 interface Category {
@@ -29,23 +30,44 @@ const CategoriesSection = (): JSX.Element => {
     const fetchCategories = async () => {
       try {
         const snapshot = await getDocs(collection(db, 'categories'));
-        const fetchedCategories: Category[] = snapshot.docs.map(doc => ({
-          id: doc.id,
-          category: doc.data().name,
-          description: doc.data().description,
-          icon: doc.data().icon || '🏆', // default emoji if none provided
-          type: doc.data().type || 'general', // fallback if not set
-          candidates: doc.data().candidates || [],
-        }));
+  
+        const fetchedCategories: Category[] = await Promise.all(
+          snapshot.docs.map(async (doc) => {
+            const categoryData = doc.data();
+            const categoryId = doc.id;
+  
+            // Fetch contestants for this category
+            const contestantsSnapshot = await getDocs(collection(db, `categories/${categoryId}/contestants`));
+            const candidates: Candidate[] = contestantsSnapshot.docs.map(contestantDoc => {
+              const contestantData = contestantDoc.data();
+              return {
+                name: contestantData.name,
+                achievement: contestantData.achievement || '',
+                image: contestantData.image || '',
+              };
+            });
+  
+            return {
+              id: categoryId,
+              category: categoryData.name,
+              description: categoryData.description,
+              icon: categoryData.icon || '🏆',
+              type: categoryData.type || 'general',
+              candidates: candidates,
+            };
+          })
+        );
+  
         setCategories(fetchedCategories);
         setFilteredCategories(fetchedCategories);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error('Error fetching categories and candidates:', error);
       }
     };
-
+  
     fetchCategories();
   }, []);
+  
 
   const handleSearch = (): void => {
     let results = categories;
@@ -100,7 +122,8 @@ const CategoriesSection = (): JSX.Element => {
         description={category.description}
         candidates={category.candidates.map(candidate => ({
           name: candidate.name,
-          achievement: candidate.achievement || ''
+          achievement: candidate.achievement || '',
+          image: candidate.image || '',
         }))}
       />
     ))
