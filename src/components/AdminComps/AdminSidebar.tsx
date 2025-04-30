@@ -2,8 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { 
-  FaHome, 
-  FaCalendarAlt, 
+  FaHome,  
   FaUser, 
   FaSignOutAlt, 
   FaAward, 
@@ -57,13 +56,6 @@ const AdminSidebar = () => {
             <FaUsers />
           </SidebarIcon>
           Contestants
-        </SidebarLink>
-        
-        <SidebarLink to="/admin/events" className={isActive("/admin/events") ? "active" : ""}>
-          <SidebarIcon>
-            <FaCalendarAlt />
-          </SidebarIcon>
-          Events
         </SidebarLink>
         
         <SidebarDivider />

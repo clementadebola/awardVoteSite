@@ -147,7 +147,7 @@ const NavMenu = styled.nav<NavMenuProps>`
     top: 60px;
     left: 0;
     right: 0;
-    background-color: #333;
+     background: linear-gradient(165deg, #1a237e, #283593, #303f9f);
     padding: 1rem;
     animation: ${slideDown} 0.3s ease-out;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
