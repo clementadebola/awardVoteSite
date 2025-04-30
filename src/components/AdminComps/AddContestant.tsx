@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { db } from '../../firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
   categoryId: string;
@@ -25,75 +27,81 @@ const AddContestantModal: React.FC<Props> = ({ categoryId, onClose }) => {
 
   const handleSubmit = async () => {
     if (!name || !file) {
-      alert('Please fill out the form completely.');
+      toast.error('Please fill out the form completely.');
       return;
     }
-    setLoading(true);
 
-    console.log('Category ID:', categoryId);
-  
+    if (!categoryId) {
+      toast.error('No valid category selected.');
+      return;
+    }
+
+    setLoading(true);
+    console.log('Adding contestant to category ID:', categoryId);
+
     try {
-      // Ensure categoryId is valid before proceeding with adding contestant
-      if (!categoryId) {
-        alert('No valid category found.');
-        setLoading(false);
-        return;
-      }
-  
       const storage = getStorage();
       const storageRef = ref(storage, `contestants/${Date.now()}-${file.name}`);
       await uploadBytes(storageRef, file);
       const imageUrl = await getDownloadURL(storageRef);
-      
-      // Fix: Use the correct collection reference for the subcollection
-      const contestantsRef = collection(db, 'categories', categoryId, 'contestants');
-      
-      await addDoc(contestantsRef, {
+
+      const categoryDocRef = doc(db, 'categories', categoryId);
+      const contestantsCollectionRef = collection(categoryDocRef, 'contestants');
+
+      const contestantDocRef = await addDoc(contestantsCollectionRef, {
         name,
         image: imageUrl,
         createdAt: new Date(),
       });
-  
-      alert('Contestant added successfully!');
+
+      console.log('Contestant added successfully with ID:', contestantDocRef.id);
+      toast.success('Contestant added successfully!');
       onClose();
     } catch (error) {
       console.error('Error uploading contestant:', error);
-      alert('Failed to add contestant.');
+      toast.error('Failed to add contestant.');
     } finally {
       setLoading(false);
     }
   };
-  
+
   return (
-    <Overlay>
-      <Modal>
-        <Title>Add Contestant</Title>
-        <Input 
-          placeholder="Enter contestant name" 
-          value={name} 
-          onChange={e => setName(e.target.value)} 
-        />
+    <>
+      <Overlay>
+        <Modal>
+          <Title>Add Contestant</Title>
+          <CategoryInfo>Adding to category ID: {categoryId}</CategoryInfo>
+          <Input 
+            placeholder="Enter contestant name" 
+            value={name} 
+            onChange={e => setName(e.target.value)} 
+          />
 
-        <FileLabel htmlFor="imageUpload">Upload Image</FileLabel>
-        <FileInput 
-          id="imageUpload" 
-          type="file" 
-          accept="image/*" 
-          onChange={handleImageChange} 
-        />
+          <FileLabel htmlFor="imageUpload">Upload Image</FileLabel>
+          <FileInput 
+            id="imageUpload" 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImageChange} 
+          />
 
-        {preview && <ImagePreview src={preview} alt="Preview" />}
+          {preview && <ImagePreview src={preview} alt="Preview" />}
 
-        <Button onClick={handleSubmit} disabled={loading}>
-          {loading ? 'Uploading...' : 'Add Contestant'}
-        </Button>
-        <CancelButton onClick={onClose}>Cancel</CancelButton>
-      </Modal>
-    </Overlay>
+          <Button onClick={handleSubmit} disabled={loading}>
+            {loading ? 'Uploading...' : 'Add Contestant'}
+          </Button>
+          <CancelButton onClick={onClose}>Cancel</CancelButton>
+        </Modal>
+      </Overlay>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+    </>
   );
 };
 
 export default AddContestantModal;
+
+// Styled Components (same as before)...
+
 
 const Overlay = styled.div`
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -119,6 +127,15 @@ const Title = styled.h3`
   text-align: center;
   font-size: 1.5rem;
   color: #090b22;
+`;
+
+const CategoryInfo = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  background: #f5f5f5;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
 `;
 
 const Input = styled.input`
