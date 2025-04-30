@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/nuesaLogo.jpeg";
 
 import {
   FaBars,
@@ -9,8 +9,6 @@ import {
   FaSignOutAlt,
   FaHome,
   FaUsers,
-  FaVideo,
-  FaCalendarAlt,
   FaUser,
   FaAward,
 } from "react-icons/fa";
@@ -47,7 +45,7 @@ const AdminHeader: React.FC = () => {
         <NavItem to="/admin/category" onClick={() => setIsOpen(false)}>
           <FaAward /> Categories List
         </NavItem>
-        <NavItem to="/admin/livestream" onClick={() => setIsOpen(false)}>
+        <NavItem to="/admin/all-category" onClick={() => setIsOpen(false)}>
           <FaUsers /> Contestant
         </NavItem>
         <NavItem to="/" onClick={() => setIsOpen(false)}>
@@ -65,20 +63,11 @@ export default AdminHeader;
 
 
 const HeaderContainer = styled.header`
-  // display: flex;
-  // justify-content: space-between;
-  // align-items: center;
-  // padding: 1rem 2rem;
-  // background-color: #333;
-  // color: white;
-  // position: relative;
-  // z-index: 999;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #333;
+  background: linear-gradient(165deg, #1a237e, #283593, #303f9f);
   color: white;
   position: fixed;
   top: 0;
@@ -94,8 +83,8 @@ const LogoContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
   display: none;
@@ -106,7 +95,7 @@ const LogoImage = styled.img`
 `;
 
 const LogoText = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin: 0;
   display: block;
 
