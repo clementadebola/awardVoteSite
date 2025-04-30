@@ -55,7 +55,11 @@ export default Header;
 // Styled Components
 
 const HeaderContainer = styled.header`
-  background: ${(props) => props.theme.gradients.header};
+ background: linear-gradient(
+      135deg,
+      rgba(32, 15, 86, 0.9) 0%,
+      rgba(8, 11, 26, 0.85) 100%
+    );
   padding: 1rem 0;
   position: sticky;
   top: 0;

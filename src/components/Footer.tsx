@@ -61,7 +61,11 @@ export default Footer;
 
 
 const FooterContainer = styled.footer`
-  background: ${props => props.theme.gradients.footer};
+ background: linear-gradient(
+      135deg,
+      rgba(32, 15, 86, 0.9) 0%,
+      rgba(8, 11, 26, 0.85) 100%
+    );
   color: ${props => props.theme.colors.light};
   padding: 4rem 0 2rem;
   position: relative;
