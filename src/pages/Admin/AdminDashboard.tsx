@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext'; // Import the context hook
 import AdminSidebar from '../../components/AdminComps/AdminSidebar';
 import AdminHeader from '../../components/AdminComps/AdminHeader';
 import AdminHome from '../../components/AdminComps/AdminHome';
@@ -10,28 +11,30 @@ import AdminProfile from '../../components/AdminComps/AdminProfile';
 import GlobalStyles from '../../GlobalStyles';
 import AllCategoriesPage from '../../components/AdminComps/AllCategoriesList';
 
-
-
 const AdminDashboard: React.FC = () => {
+  const { isAuthenticated} = useAuth(); // Get authentication status and logout function
+  const navigate = useNavigate(); // For navigation
 
+  useEffect(() => {
+    // If the user is not authenticated, redirect to the login page
+    if (!isAuthenticated) {
+      navigate('/login'); // Adjust the route according to your setup
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <DashboardContainer>
       <GlobalStyles />
-        <AdminSidebar />
+      <AdminSidebar />
       <MainContentWrapper>
-          <AdminHeader />
+        <AdminHeader />
         <ContentArea>
           <Routes>
             <Route path="/" element={<AdminHome />} />
-            /* this part manage categories /*
             <Route path="category" element={<CategoryDashboard />} />
-            /* this part manage contestants /*
             <Route path="all-category" element={<AllCategoriesPage />} />
-            /* this part see payments /*
             <Route path="events" element={<EventEditor />} />
             <Route path="profile" element={<AdminProfile />} />
-            
           </Routes>
         </ContentArea>
       </MainContentWrapper>
@@ -43,7 +46,6 @@ export default AdminDashboard;
 
 const DashboardContainer = styled.div`
   display: flex;
-  // height: 100vh;
 `;
 
 const MainContentWrapper = styled.div`
@@ -55,6 +57,5 @@ const MainContentWrapper = styled.div`
 `;
 
 const ContentArea = styled.div`
-    flex: 1;
-  // padding-top: 100px;
+  flex: 1;
 `;

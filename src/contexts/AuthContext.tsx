@@ -14,12 +14,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    // Listen for auth state changes
+    // Check if the user is already logged in when the app reloads
+    const savedAuthState = localStorage.getItem('isAuthenticated');
+    if (savedAuthState === 'true') {
+      setIsAuthenticated(true);
+    }
+
+    // Listen for auth state changes (Firebase)
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsAuthenticated(true);
+        localStorage.setItem('isAuthenticated', 'true');
       } else {
         setIsAuthenticated(false);
+        localStorage.setItem('isAuthenticated', 'false');
       }
     });
 
@@ -41,7 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async (): Promise<void> => {
     await signOut(auth);
-    localStorage.removeItem('isAuthenticated');
+    localStorage.setItem('isAuthenticated', 'false');
     setIsAuthenticated(false);
   };
 
